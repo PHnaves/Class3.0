@@ -1,0 +1,7 @@
+{
+  "name": "ClassConect",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
