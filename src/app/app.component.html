@@ -1,3 +1,24 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+    <ion-router-outlet></ion-router-outlet>
 </ion-app>
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" [routerLink]="['/tabs/home']">
+      <ion-icon src="assets/icon/home.svg"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="materias" [routerLink]="['/tabs/materias']">
+      <ion-icon name="time-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="calendario" [routerLink]="['/tabs/calendario']">
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="notificacoes" [routerLink]="['/tabs/notificacoes']">
+      <ion-icon name="notifications-outline"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+

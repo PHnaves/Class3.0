@@ -1,0 +1,100 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button routerLink="/sobre">Sobre</ion-item>
+      <ion-item button routerLink="/ajuda">Ajuda</ion-item>
+      <ion-item button routerLink="/dados-pessoais">Dados Pessoais</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <!-- Header -->
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <!-- Menu Button -->
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+
+      <!-- Title -->
+      <ion-title>
+        Calendar
+      </ion-title>
+
+      <!-- Logo -->
+      <div slot="end" class="header-logo">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Content -->
+  <ion-content>
+    <div class="ion-padding">
+
+      <!-- Calendar Card -->
+      <ion-card class="calendar">
+        <div class="cal-nav ion-text-center">
+          <ion-button class="fl" fill="clear" size="small" color="dark" (click)="onPreviousMonth()">
+            <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+          </ion-button>
+          <span>{{ getMonthName(monthNumber) }} &nbsp; {{ year }}</span>
+          <ion-button class="fr" fill="clear" size="small" color="dark" (click)="onNextMonth()">
+            <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <!-- Weekdays -->
+        <span *ngFor="let weekDay of weekDaysName" class="day current">
+          {{ weekDay }}
+        </span>
+
+        <!-- Month Days -->
+        <span *ngFor="let day of monthDays" class="day">
+          {{ day.number }}
+        </span>
+      </ion-card>
+
+      <!-- Upcoming Tests Section -->
+      <br />
+      <h4 class="p-4">
+        Upcoming tests
+        <span class="fr link">Sort by <ion-icon class="sort-icon" name="chevron-down-outline"></ion-icon></span>
+      </h4>
+
+      <!-- Test Items -->
+      <ion-item button lines="none">
+        <ion-avatar slot="start" class="medium">
+          <img src="assets/icon/atom.svg" />
+        </ion-avatar>
+        <ion-label>
+          Science
+          <p>Presentation</p>
+        </ion-label>
+        <ion-label slot="end">
+          <p class="ion-text-right">Sun, 10:00 AM</p>
+          <p>&nbsp;</p>
+        </ion-label>
+      </ion-item>
+      <ion-item button lines="none">
+        <ion-avatar slot="start" class="medium">
+          <img src="assets/icon/atom.svg" />
+        </ion-avatar>
+        <ion-label>
+          Science
+          <p>Test</p>
+        </ion-label>
+        <ion-label slot="end">
+          <p class="ion-text-right">Wed, 10:00 AM</p>
+          <p>&nbsp;</p>
+        </ion-label>
+      </ion-item>
+    </div>
+  </ion-content>
+</div>

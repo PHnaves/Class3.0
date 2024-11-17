@@ -1,0 +1,23 @@
+ion-tab-bar {
+    --border: none;
+    ion-tab-button {
+        color: #fff;
+        
+        ion-icon {
+            padding: 10px;
+            font-size: 20px;            
+            border-radius: 50%;
+            transition: 200ms all ease-in-out;
+        }
+
+
+    }
+
+    .tab-selected {        
+        ion-icon {
+            color: #000;
+            background-color: #fff;
+        }
+    }
+
+}

@@ -35,3 +35,33 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap');
+
+:root {
+    --ion-font-family: 'DM Serif Text', serif;
+}
+
+ion-title {
+    font-size: 30px;
+}
+
+.primary {
+    background: var(--custom-gradient-primary);
+    color: #ffffff;
+}
+
+.medium {
+    background-color: #ffffff;
+    color: #000;
+}
+
+.dark {
+    background-color: #ffffff;
+    color: #000;
+}
+
+.night {
+    background-color: #ffffff;
+    color: #474141;
+}

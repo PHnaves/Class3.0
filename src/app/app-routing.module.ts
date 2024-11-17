@@ -11,6 +11,18 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'materias',
+    loadChildren: () => import('./materias/materias.module').then( m => m.MateriasPageModule)
+  },
+  {
+    path: 'calendario',
+    loadChildren: () => import('./calendario/calendario.module').then( m => m.CalendarioPageModule)
+  },
+  {
+    path: 'notificacoes',
+    loadChildren: () => import('./notificacoes/notificacoes.module').then( m => m.NotificacoesPageModule)
+  },
 ];
 
 @NgModule({

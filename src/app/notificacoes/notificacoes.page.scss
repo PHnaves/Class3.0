@@ -1,0 +1,48 @@
+.header-title {
+    text-align: center;
+    flex-grow: 1;
+    font-weight: bold;
+  }
+  
+  .header-logo img {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+  }
+
+.p-4 {
+    padding: 0 4px;
+}
+
+.fr {
+    float: right;
+}
+
+.link {
+    font-size: 14px;
+}
+
+.badge-item {
+    border-bottom: 1px solid #f8f8f8;
+
+    ion-avatar {
+        --border-radius: 30%;
+        background-color: #222;
+        // border: 10px solid #222;
+        padding: 10px;
+    }
+
+}
+
+ion-item:first-of-type {
+    ion-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    ion-label {
+        font-size: 20px;
+        p {
+            font-size: 18px;
+        }
+    }
+}
