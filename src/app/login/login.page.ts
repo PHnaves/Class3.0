@@ -23,24 +23,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  email: string = '';
+  username: string = '';
   password: string = '';
 
   constructor(private router: Router) {}
 
   onSubmit() {
-    console.log('E-mail:', this.email);
-    console.log('Senha:', this.password);
-    
     // Aqui você pode adicionar a lógica de autenticação
-    // Por exemplo, chamar um serviço de autenticação
+    console.log('Usuário:', this.username);
+    console.log('Senha:', this.password);
 
-    // Para fins de demonstração, vamos navegar para a página inicial
-    this.router.navigate(['/home']);
-  }
-
-  navegarParaRegistro() {
-    // Navegar para a página de registro (você pode criar essa página)
-    this.router.navigate(['/register']);
+    // Exemplo de autenticação simples (substitua por lógica real)
+    if (this.username === 'admin' && this.password === 'admin') {
+      // Redirecionar para a página inicial após o login bem-sucedido
+      this.router.navigate(['/home']);
+    } else {
+      // Exibir mensagem de erro ou feedback ao usuário
+      alert('Usuário ou senha incorretos');
+    }
   }
 }

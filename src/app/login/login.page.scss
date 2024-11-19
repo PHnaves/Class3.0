@@ -1,8 +1,54 @@
-ion-header {
-    background: #38c744;
+.login-background {
+  background: linear-gradient(135deg, #6200ea, #3700b3);
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;    /* Centraliza verticalmente */
+  height: 100vh;          /* Garante que ocupe toda a altura da viewport */
+}
+
+.login-container {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  // alinhado ao meio da tela
+  margin: 0 auto;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-container h1 {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+ion-item {
+  --background: transparent;
+  --color: white;
+
+  ion-label {
     color: white;
   }
-  
-  ion-content {
-    --background: #f4f4f4;
+
+  ion-input {
+    color: white;
   }
+}
+
+ion-icon {
+  color: white;
+}
+
+.login-button {
+  margin-top: 20px;
+  border-radius: 25px;
+  transition: background-color 0.3s, transform 0.3s;
+
+  &:hover {
+    background-color: #3700b3;
+    transform: scale(1.05);
+  }
+}
