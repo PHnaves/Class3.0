@@ -1,0 +1,50 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item routerLink="/perfil">Perfil do Usuário</ion-item>
+      <ion-item routerLink="/historico">Histórico</ion-item>
+      <ion-item routerLink="/termos">Termos de Uso</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title class="header-title">Contato</ion-title>
+      <div slot="end" class="header-logo">
+        <img src="assets/logo.png" alt="Logo" />
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+    <div class="ion-padding">
+      <form (ngSubmit)="enviarContato()">
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Nome</ion-label>
+            <ion-input [(ngModel)]="nome" name="nome" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Mensagem</ion-label>
+            <ion-textarea [(ngModel)]="mensagem" name="mensagem" required></ion-textarea>
+          </ion-item>
+          <ion-button expand="full" type="submit" color="primary">Enviar</ion-button>
+        </ion-list>
+      </form>
+    </div>
+  </ion-content>
+</div>

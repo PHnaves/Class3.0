@@ -10,10 +10,12 @@
   font-weight: bold;
 }
 
-.header-logo img {
+.logo{
   height: 40px;
   width: auto;
-  margin-right: 10px;
+  background-color: #ffffff;
+  margin: 5px;
+  border-radius: 50%;
 }
 
 .no-pointer {
@@ -63,7 +65,7 @@ ion-grid, ion-col {
   }
 
   p {
-      font-size: 16px;
+      font-size: 18px;
       line-height: 20px;
   }
 
@@ -71,6 +73,7 @@ ion-grid, ion-col {
       font-size: 34px;
       font-weight: bold;
       margin-top: 14px ;
+      color: green;
   }
 
   .mb {

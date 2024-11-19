@@ -1,0 +1,42 @@
+// ion-header {
+//     background: #f8f9fa; /* Cor de fundo do cabeçalho */
+//   }
+  
+//   ion-toolbar {
+//     --background: #007bff; /* Cor de fundo do toolbar */
+//     --color: white; /* Cor do texto */
+//   }
+  
+  .header-title {
+    font-weight: bold;
+  }
+  
+  .logo{
+    height: 40px;
+    width: auto;
+    background-color: #ffffff;
+    margin: 5px;
+    border-radius: 50%;
+  }
+  
+  ion-item-divider {
+    margin-top: 20px;
+    font-weight: bold; /* Negrito para divisores */
+  }
+  
+  ion-button {
+    margin: 16px; /* Margem para o botão de salvar */
+  }
+  
+  ion-card {
+    margin: 10px 0; /* Margem entre os cartões */
+  }
+  
+  .title {
+    display: flex;
+    align-items: center; /* Alinha ícone e texto */
+  }
+  
+  .fl {
+    margin-right: 8px; /* Espaçamento entre ícone e texto */
+  }

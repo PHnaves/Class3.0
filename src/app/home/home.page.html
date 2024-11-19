@@ -6,9 +6,9 @@
   </ion-header>
   <ion-content class="ion-padding">
     <ion-list>
-      <ion-item routerLink="/sobre">Sobre</ion-item>
-      <ion-item routerLink="/ajuda">Ajuda</ion-item>
-      <ion-item routerLink="/dados-pessoais">Dados Pessoais</ion-item>
+      <ion-item routerLink="/perfil">Perfil do Usuário</ion-item>
+      <ion-item routerLink="/termos">Termos de Uso</ion-item>
+      <ion-item routerLink="/settings">Configurações</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -26,8 +26,8 @@
       <ion-title class="header-title">Home</ion-title>
 
       <!-- Logo -->
-      <div slot="end" class="header-logo">
-        <img src="assets/logo.png" alt="Logo" />
+      <div slot="end">
+        <img class="logo" src="assets/imagens/logo-sem-escrita.png" alt="Logo" />
       </div>
     </ion-toolbar>
   </ion-header>
@@ -35,9 +35,6 @@
   <!-- Main content -->
   <ion-content [fullscreen]="true">
     <div class="ion-padding">
-      <div>
-        <h4 class="p-4">Dashboard <span class="fr link">Edit</span></h4>
-      </div>
       <ion-grid fixed>
         <ion-row>
           <ion-col size="6">
@@ -45,29 +42,7 @@
               <ion-card-content>
                 <div class="title">
                   <ion-icon name="book-outline" class="fl"></ion-icon>
-                  <p>Homework to do</p>
-                  <h2>4</h2>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card class="medium">
-              <ion-card-content>
-                <div class="title">
-                  <ion-icon name="mail-outline" class="fl"></ion-icon>
-                  <p>Attendance score</p>
-                  <h2>95%</h2>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card class="medium">
-              <ion-card-content>
-                <div class="title">
-                  <ion-icon name="bar-chart-outline" class="fl"></ion-icon>
-                  <p>Average grade</p>
+                  <p>Atividades</p>
                   <h2>10</h2>
                 </div>
               </ion-card-content>
@@ -77,8 +52,30 @@
             <ion-card class="medium">
               <ion-card-content>
                 <div class="title">
+                  <ion-icon name="mail-outline" class="fl"></ion-icon>
+                  <p>Notificações</p>
+                  <h2>3</h2>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6">
+            <ion-card class="medium">
+              <ion-card-content>
+                <div class="title">
+                  <ion-icon name="bar-chart-outline" class="fl"></ion-icon>
+                  <p>Avanço</p>
+                  <h2>10%</h2>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6">
+            <ion-card class="medium">
+              <ion-card-content>
+                <div class="title">
                   <ion-icon name="reader-outline" class="fl"></ion-icon>
-                  <p>Classes today</p>
+                  <p>Materias</p>
                   <h2>4</h2>
                 </div>
               </ion-card-content>
@@ -91,7 +88,7 @@
                   <ion-card-content>
                     <div class="title">
                       <ion-icon name="time-outline" class="fl"></ion-icon>
-                      <p>Next class today</p>
+                      <p>Proxima Atividade</p>
                       <h2>Math</h2>
                     </div>
                   </ion-card-content>
@@ -103,7 +100,6 @@
                         09:00 AM
                         <br />10:30 AM
                       </p>
-                      <p>B-200 <br />Classroom</p>
                     </div>
                   </ion-card-content>
                 </ion-col>

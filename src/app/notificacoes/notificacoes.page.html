@@ -6,9 +6,9 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item button routerLink="/sobre">Sobre</ion-item>
-      <ion-item button routerLink="/ajuda">Ajuda</ion-item>
-      <ion-item button routerLink="/dados-pessoais">Dados Pessoais</ion-item>
+      <ion-item routerLink="/perfil">Perfil do Usuário</ion-item>
+      <ion-item routerLink="/termos">Termos de Uso</ion-item>
+      <ion-item routerLink="/settings">Configurações</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -24,12 +24,12 @@
 
       <!-- Title -->
       <ion-title>
-        Profile
+        Notificações
       </ion-title>
 
       <!-- Logo -->
-      <div slot="end" class="header-logo">
-        <img src="assets/logo.png" alt="Logo" />
+      <div slot="end">
+        <img class="logo" src="assets/imagens/logo-sem-escrita.png" alt="Logo" />
       </div>
     </ion-toolbar>
   </ion-header>
@@ -37,27 +37,13 @@
   <!-- Content -->
   <ion-content>
     <div class="ion-padding">  
-      <!-- Profile Information -->
-      <ion-item button lines="none">
-        <ion-avatar slot="start">
-          <img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8/R8AAtsB7JKxzdUAAAAASUVORK5CYII=">
-        </ion-avatar>
-        <ion-label>
-          Habib AlMawali
-          <p>Grade 11</p>
-        </ion-label>
-      </ion-item>
-      
-      <!-- Achievements Section -->
-      <h4 class="p-4">Achievements <span class="fr link">See all</span></h4>
-      
+      <h4 class="p-4">Importantes</h4>
       <ion-item button lines="none" class="badge-item">
         <ion-avatar slot="start" class="night">
           <img src="assets/icon/clock.svg">
         </ion-avatar>
         <ion-label>
-          Punctual
-          <p>You have not missed a single lesson.</p>
+          <p>Voce tem atividades atrasadas</p>
         </ion-label>
       </ion-item>
       <ion-item button lines="none" class="badge-item">
@@ -65,17 +51,7 @@
           <img src="assets/icon/star.svg">
         </ion-avatar>
         <ion-label>
-          Excellent Presentation
-          <p>You have done great presentation.</p>
-        </ion-label>
-      </ion-item>
-      <ion-item button lines="none" class="badge-item">
-        <ion-avatar slot="start" class="night">
-          <img src="assets/icon/profits.svg">
-        </ion-avatar>
-        <ion-label>
-          Growing 
-          <p>You have being growing quickly.</p>
+          <p>Voce tem uma apresentação</p>
         </ion-label>
       </ion-item>
     </div>

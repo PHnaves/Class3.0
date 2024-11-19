@@ -6,9 +6,9 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item button routerLink="/sobre">Sobre</ion-item>
-      <ion-item button routerLink="/ajuda">Ajuda</ion-item>
-      <ion-item button routerLink="/dados-pessoais">Dados Pessoais</ion-item>
+      <ion-item routerLink="/perfil">Perfil do Usuário</ion-item>
+      <ion-item routerLink="/historico">Histórico</ion-item>
+      <ion-item routerLink="/settings">Configurações</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -24,12 +24,12 @@
 
       <!-- Title -->
       <ion-title>
-        Calendar
+        Calendario
       </ion-title>
 
       <!-- Logo -->
-      <div slot="end" class="header-logo">
-        <img src="assets/logo.png" alt="Logo" />
+      <div slot="end">
+        <img class="logo" src="assets/imagens/logo-sem-escrita.png" alt="Logo" />
       </div>
     </ion-toolbar>
   </ion-header>
@@ -39,28 +39,7 @@
     <div class="ion-padding">
 
       <!-- Calendar Card -->
-      <ion-card class="calendar">
-        <div class="cal-nav ion-text-center">
-          <ion-button class="fl" fill="clear" size="small" color="dark" (click)="onPreviousMonth()">
-            <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
-          </ion-button>
-          <span>{{ getMonthName(monthNumber) }} &nbsp; {{ year }}</span>
-          <ion-button class="fr" fill="clear" size="small" color="dark" (click)="onNextMonth()">
-            <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
-          </ion-button>
-        </div>
-
-        <!-- Weekdays -->
-        <span *ngFor="let weekDay of weekDaysName" class="day current">
-          {{ weekDay }}
-        </span>
-
-        <!-- Month Days -->
-        <span *ngFor="let day of monthDays" class="day">
-          {{ day.number }}
-        </span>
-      </ion-card>
-
+      <ion-datetime [isDateEnabled]="isWeekday"></ion-datetime>
       <!-- Upcoming Tests Section -->
       <br />
       <h4 class="p-4">
