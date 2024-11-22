@@ -1,21 +1,54 @@
-// import { Component, OnInit } from '@angular/core';
+// // import { Component, OnInit } from '@angular/core';
+
+// // @Component({
+// //   selector: 'app-login',
+// //   templateUrl: './login.page.html',
+// //   styleUrls: ['./login.page.scss'],
+// // })
+// // export class LoginPage implements OnInit {
+
+// //   constructor() { }
+
+// //   ngOnInit() {
+// //   }
+
+// // }
+
+// import { Component } from '@angular/core';
+// import { AuthService } from '../services/auth.service';
+// import { NavController } from '@ionic/angular';
 
 // @Component({
 //   selector: 'app-login',
 //   templateUrl: './login.page.html',
 //   styleUrls: ['./login.page.scss'],
 // })
-// export class LoginPage implements OnInit {
+// export class LoginPage {
+//   username: string = '';
+//   password: string = '';
 
-//   constructor() { }
+//   constructor(private authService: AuthService, private navCtrl: NavController) {}
 
-//   ngOnInit() {
+//   onLogin() {
+//     this.authService.login(this.username, this.password).subscribe(response => {
+//       if (response.success) {
+//         // Salve o token ou informações do usuário
+//         localStorage.setItem('token', response.token);
+//         // Navegue para a página principal ou dashboard
+//         this.navCtrl.navigateRoot('/home');
+//       } else {
+//         // Trate o erro de login
+//         alert('Login falhou. Verifique suas credenciais.');
+//       }
+//     }, error => {
+//       console.error('Erro ao fazer login', error);
+//       alert('Erro ao fazer login. Tente novamente.');
+//     });
 //   }
-
 // }
 
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,23 +56,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  username: string = '';
+  identifier: string = ''; // Pode ser o RA ou email
   password: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService) {}
 
-  onSubmit() {
-    // Aqui você pode adicionar a lógica de autenticação
-    console.log('Usuário:', this.username);
-    console.log('Senha:', this.password);
-
-    // Exemplo de autenticação simples (substitua por lógica real)
-    if (this.username === 'admin' && this.password === 'admin') {
-      // Redirecionar para a página inicial após o login bem-sucedido
-      this.router.navigate(['/home']);
-    } else {
-      // Exibir mensagem de erro ou feedback ao usuário
-      alert('Usuário ou senha incorretos');
-    }
+  login() {
+    this.authService.login(this.identifier, this.password).subscribe(response => {
+      if (response.success) {
+        console.log('Login bem-sucedido:', response.message);
+        // Redirecionar ou armazenar token
+      } else {
+        console.error('Erro no login:', response.message);
+      }
+    });
   }
 }

@@ -23,12 +23,9 @@
 </ion-tabs>
 
 <!-- para nao rdenriza na pagina de login -->
-<ion-app>
   <ng-container *ngIf="!isLoginPage(); else loginLayout">
-    <ion-router-outlet></ion-router-outlet>
   </ng-container>
   <ng-template #loginLayout>
     <router-outlet></router-outlet>
   </ng-template>
-</ion-app>
 

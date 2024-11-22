@@ -1,27 +1,45 @@
-<ion-app class="login-page">
-    <!-- Conteúdo da página de login -->
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Login</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content class="ion-padding login-background">
-      <div class="login-container">
-        <h1>Bem-vindo de volta!</h1>
-        <form (ngSubmit)="onSubmit()">
-          <ion-item>
-            <ion-icon name="person" slot="start"></ion-icon>
-            <ion-label position="floating">Usuário</ion-label>
-            <ion-input type="text" required [(ngModel)]="username" name="username"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="lock-closed" slot="start"></ion-icon>
-            <ion-label position="floating">Senha</ion-label>
-            <ion-input type="password" required [(ngModel)]="password" name="password"></ion-input>
-          </ion-item>
-          <ion-button expand="full" type="submit" color="primary" class="login-button">Entrar</ion-button>
-        </form>
-      </div>
-    </ion-content>
-</ion-app>
+<!-- <ion-app class="login-page">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Login</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <router-outlet></router-outlet>
+
+  <ion-content class="ion-padding login-background">
+    <div class="login-container">
+      <h1>Bem-vindo de volta!</h1>
+      <form (ngSubmit)="onLogin()">
+        <ion-item>
+          <ion-icon name="person" slot="start"></ion-icon>
+          <ion-label position="floating">Usuário</ion-label>
+          <ion-input type="text" required [(ngModel)]="username" name="username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="lock-closed" slot="start"></ion-icon>
+          <ion-label position="floating">Senha</ion-label>
+          <ion-input type="password" required [(ngModel)]="password" name="password"></ion-input>
+        </ion-item>
+        <ion-button expand="full" type="submit" color="primary" class="login-button">Entrar</ion-button>
+      </form>
+    </div>
+  </ion-content>
+</ion-app> -->
+
+<ion-header></ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">RA ou Email</ion-label>
+    <ion-input [(ngModel)]="identifier"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Senha</ion-label>
+    <ion-input type="password" [(ngModel)]="password"></ion-input>
+  </ion-item>
+  <ion-button expand="full" (click)="login()">Entrar</ion-button>
+</ion-content>
