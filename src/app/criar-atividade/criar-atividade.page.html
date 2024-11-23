@@ -1,0 +1,65 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Criar Atividade</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label>Descrição</ion-label>
+      <ion-input type="text" [(ngModel)]="atividade.descricao" name="descricao" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Data de Entrega</ion-label>
+      <ion-datetime [(ngModel)]="atividade.dataEntrega" name="dataEntrega" required></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Nota</ion-label>
+      <ion-input type="number" [(ngModel)]="atividade.nota" name="nota" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Matéria</ion-label>
+      <ion-input type="text" [(ngModel)]="atividade.materia" name="materia" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Criar Atividade</ion-button>
+  </form>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Criar Atividade</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label>Descrição</ion-label>
+      <ion-input type="text" [(ngModel)]="atividade.descricao" name="descricao" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Data de Entrega</ion-label>
+      <ion-datetime [(ngModel)]="atividade.dataEntrega" name="dataEntrega" required></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Nota</ion-label>
+      <ion-input type="number" [(ngModel)]="atividade.nota" name="nota" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Matéria</ion-label>
+      <ion-select [(ngModel)]="atividade.materia" name="materia" required>
+        <ion-select-option *ngFor="let materia of materias" [value]="materia.nome">{{ materia.nome }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Criar Atividade</ion-button>
+  </form>
+</ion-content>

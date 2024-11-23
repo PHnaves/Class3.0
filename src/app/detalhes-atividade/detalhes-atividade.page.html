@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalhes da Atividade</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="atividade">
+    <ion-card-header>
+      <ion-card-title>{{ atividade.descricao }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Data de Entrega: {{ atividade.dataEntrega | date }}</p>
+      <p>Nota: {{ atividade.nota }}</p>
+      <p>Matéria: {{ atividade.materia }}</p>
+      <p>Descrição: {{ atividade.descricao }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

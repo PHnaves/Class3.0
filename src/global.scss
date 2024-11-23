@@ -36,15 +36,15 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
 
 .login-page ion-app {
     /* Ignorar o estilo do app.html */
     all: unset;
 }
 
-:root {
-    --ion-font-family: 'DM Serif Text', serif;
+ion-app{
+    font-family: 'Roboto', sans-serif;
 }
 
 ion-title {
@@ -52,7 +52,6 @@ ion-title {
 }
 
 .primary {
-    background: var(--custom-gradient-primary);
     color: #ffffff;
 }
 

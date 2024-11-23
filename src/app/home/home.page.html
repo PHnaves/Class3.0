@@ -17,15 +17,10 @@
   <!-- Header -->
   <ion-header>
     <ion-toolbar>
-      <!-- Menu button -->
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-
-      <!-- Title -->
       <ion-title class="header-title">Home</ion-title>
-
-      <!-- Logo -->
       <div slot="end">
         <img class="logo" src="assets/imagens/logo-sem-escrita.png" alt="Logo" />
       </div>
@@ -39,11 +34,11 @@
         <ion-row>
           <ion-col size="6">
             <ion-card class="night">
-              <ion-card-content>
+              <ion-card-content routerLink="/atividades">
                 <div class="title">
                   <ion-icon name="book-outline" class="fl"></ion-icon>
                   <p>Atividades</p>
-                  <h2>10</h2>
+                  <h2>{{ contagemAtividades }}</h2>
                 </div>
               </ion-card-content>
             </ion-card>
@@ -54,7 +49,7 @@
                 <div class="title">
                   <ion-icon name="mail-outline" class="fl"></ion-icon>
                   <p>Notificações</p>
-                  <h2>3</h2>
+                  <h2>{{ contagemNotificacoes }}</h2>
                 </div>
               </ion-card-content>
             </ion-card>
@@ -64,8 +59,8 @@
               <ion-card-content>
                 <div class="title">
                   <ion-icon name="bar-chart-outline" class="fl"></ion-icon>
-                  <p>Avanço</p>
-                  <h2>10%</h2>
+                  <p>Matérias Diferentes</p>
+                  <h2>{{ contagemMaterias }}</h2>
                 </div>
               </ion-card-content>
             </ion-card>
@@ -75,8 +70,8 @@
               <ion-card-content>
                 <div class="title">
                   <ion-icon name="reader-outline" class="fl"></ion-icon>
-                  <p>Materias</p>
-                  <h2>4</h2>
+                  <p>Atividades Recentes</p>
+                  <h2>{{ atividadesRecentes.length }}</h2>
                 </div>
               </ion-card-content>
             </ion-card>
@@ -88,17 +83,16 @@
                   <ion-card-content>
                     <div class="title">
                       <ion-icon name="time-outline" class="fl"></ion-icon>
-                      <p>Proxima Atividade</p>
-                      <h2>Math</h2>
+                      <p>Próxima Atividade</p>
+                      <h2 *ngIf="atividadesRecentes.length > 0">{{ atividadesRecentes[0].descricao }}</h2>
                     </div>
                   </ion-card-content>
                 </ion-col>
                 <ion-col size="6">
                   <ion-card-content>
                     <div class="title">
-                      <p class="mb">
-                        09:00 AM
-                        <br />10:30 AM
+                      <p class="mb" *ngIf="atividadesRecentes.length > 0">
+                        {{ atividadesRecentes[0].dataEntrega | date:'shortTime' }}
                       </p>
                     </div>
                   </ion-card-content>

@@ -42,7 +42,19 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },  {
+    path: 'criar-atividade',
+    loadChildren: () => import('./criar-atividade/criar-atividade.module').then( m => m.CriarAtividadePageModule)
   },
+  {
+    path: 'atividades',
+    loadChildren: () => import('./atividades/atividades.module').then( m => m.AtividadesPageModule)
+  },
+  {
+    path: 'detalhes-atividade',
+    loadChildren: () => import('./detalhes-atividade/detalhes-atividade.module').then( m => m.DetalhesAtividadePageModule)
+  },
+
 
 ];
 
