@@ -1,16 +1,43 @@
+.header-title {
+  text-align: center;
+  flex-grow: 1;
+  font-weight: bold;
+}
 
+.logo{
+  height: 40px;
+  width: auto;
+  background-color: #ffffff;
+  margin: 5px;
+  border-radius: 50%;
+}
 
-  .header-title {
-    font-weight: bold;
-  }
+.menu-title {
+  font-size: 24px;
+  color: white;
+  text-align: center;
+}
+
+ion-list {
+  margin-top: 20px;
+  background: transparent;
+}
+
+ion-item {
+  --background: transparent; // Fundo transparente para o item
+  --color: #ffffff; // Cor do texto
+  border-radius: 8px; // Bordas arredondadas
+  transition: background 0.3s; // Transição suave para o hover
+}
+
+ion-item:hover {
+  --background: rgba(255, 255, 255, 0.1); // Efeito de hover
+}
+
+ion-icon {
+  color: green; // Cor dos ícones
+}
   
-  .header-logo img {
-    height: 40px; /* Ajuste a altura da logo */
-  }
-  
-  ion-item {
-    margin-bottom: 15px; /* Espaçamento entre itens do formulário */
-  }
   
   ion-button {
     margin-top: 20px; /* Espaço acima do botão */

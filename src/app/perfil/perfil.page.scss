@@ -1,7 +1,64 @@
+.header-title {
+  text-align: center;
+  flex-grow: 1;
+  font-weight: bold;
+}
+
 .logo{
-    height: 40px;
-    width: auto;
-    background-color: #ffffff;
-    margin: 5px;
-    border-radius: 50%;
-  }
+  height: 40px;
+  width: auto;
+  background-color: #ffffff;
+  margin: 5px;
+  border-radius: 50%;
+}
+
+.menu-title {
+  font-size: 24px;
+  color: white;
+  text-align: center;
+}
+
+ion-list {
+  margin-top: 20px;
+  background: transparent;
+}
+
+ion-item {
+  --background: transparent; // Fundo transparente para o item
+  --color: #ffffff; // Cor do texto
+  border-radius: 8px; // Bordas arredondadas
+  transition: background 0.3s; // Transição suave para o hover
+}
+
+ion-item:hover {
+  --background: rgba(255, 255, 255, 0.1); // Efeito de hover
+}
+
+ion-icon {
+  color: green; // Cor dos ícones
+}
+
+.info-card {
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #ffffff, #f7f7f7);
+}
+
+.card-icon {
+  font-size: 1.8rem;
+  color: #4caf50;
+  margin-right: 8px;
+}
+
+ion-card-title {
+  font-size: 1.4rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.value {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 2px;
+}
