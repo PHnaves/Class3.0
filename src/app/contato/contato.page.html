@@ -36,23 +36,31 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content [fullscreen]="true">
+  <!-- Conteúdo -->
+  <ion-content [fullscreen]="true" class="contact-page">
     <div class="ion-padding">
+      <h2 class="page-title">Entre em Contato</h2>
+      <p class="page-description">
+        Se você tem dúvidas, sugestões ou deseja falar conosco, preencha o formulário abaixo. Responderemos o mais rápido possível!
+      </p>
       <form (ngSubmit)="enviarContato()">
         <ion-list>
-          <ion-item>
+          <ion-item class="input-item">
             <ion-label position="stacked">Nome</ion-label>
             <ion-input [(ngModel)]="nome" name="nome" required></ion-input>
           </ion-item>
-          <ion-item>
+          <ion-item class="input-item">
             <ion-label position="stacked">Email</ion-label>
             <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
           </ion-item>
-          <ion-item>
+          <ion-item class="input-item">
             <ion-label position="stacked">Mensagem</ion-label>
             <ion-textarea [(ngModel)]="mensagem" name="mensagem" required></ion-textarea>
           </ion-item>
-          <ion-button expand="full" type="submit" color="primary">Enviar</ion-button>
+          <ion-button expand="full" type="submit" color="success" class="submit-button">
+            <ion-icon slot="start" name="send"></ion-icon>
+            Enviar Mensagem
+          </ion-button>
         </ion-list>
       </form>
     </div>

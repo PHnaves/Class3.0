@@ -15,7 +15,7 @@
 // }
 
 import { Component } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import emailjs from 'emailjs-com';
 
 @Component({
   selector: 'app-contato',
@@ -27,19 +27,32 @@ export class ContatoPage {
   email: string = '';
   mensagem: string = '';
 
-  constructor(private toastController: ToastController) {}
+  enviarContato() {
+    if (this.nome && this.email && this.mensagem) {
+      const serviceID = 'service_c1xqiat'; // Substitua pelo ID do serviço EmailJS
+      const templateID = 'template_u7kmfcv'; // Substitua pelo ID do template EmailJS
+      const userID = 'QNCV_45WdYdKFMT0E'; // Substitua pelo ID do usuário EmailJS
 
-  async enviarContato() {
-    // Aqui você pode adicionar a lógica para enviar a mensagem
-    const toast = await this.toastController.create({
-      message: 'Mensagem enviada com sucesso!',
-      duration: 2000,
-      color: 'success'
-    });
-    toast.present();
-    // Limpar os campos após o envio
-    this.nome = '';
-    this.email = '';
-    this.mensagem = '';
+      const templateParams = {
+        nome: this.nome,
+        email: this.email,
+        mensagem: this.mensagem,
+      };
+
+      emailjs
+        .send(serviceID, templateID, templateParams, userID)
+        .then(
+          (response) => {
+            console.log('E-mail enviado com sucesso!', response.status, response.text);
+            alert('Sua mensagem foi enviada com sucesso! Entraremos em contato em breve.');
+          },
+          (error) => {
+            console.error('Erro ao enviar o e-mail:', error);
+            alert('Ocorreu um erro ao enviar sua mensagem. Tente novamente mais tarde.');
+          }
+        );
+    } else {
+      alert('Por favor, preencha todos os campos.');
+    }
   }
 }
