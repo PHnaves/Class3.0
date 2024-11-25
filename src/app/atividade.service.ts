@@ -1,87 +1,83 @@
-// import { Injectable } from '@angular/core';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AtividadeService {
-
-//   constructor() { }
-// }
-
-
-// import { Injectable } from '@angular/core';
-
-// interface Atividade {
-//   descricao: string;
-//   dataEntrega: string;
-//   nota: number;
-//   materia: string;
-// }
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AtividadeService {
-//   private atividades: Atividade[] = [];
-
-//   constructor() {}
-
-//   addAtividade(atividade: Atividade) {
-//     this.atividades.push(atividade);
-//   }
-
-//   getAtividades() {
-//     // Filtra atividades que ainda não passaram da data de entrega
-//     return this.atividades.filter(atividade => new Date(atividade.dataEntrega) >= new Date());
-//   }
-// }
-
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
-interface Atividade {
+export interface Atividade {
+  id?: number;
   descricao: string;
   dataEntrega: string;
   nota: number;
   materia: string;
 }
 
+interface ApiResponse {
+  status: string;
+  message?: string;
+  data?: any;
+  id?: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AtividadeService {
-  private atividades: Atividade[] = [];
+  // URL da API no MySQL Workbench
+  private apiUrl = 'http://localhost/ClassConect2.0/src/app/db.php';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  addAtividade(atividade: Atividade) {
-    this.atividades.push(atividade);
+  // Criar atividade
+  addAtividade(atividade: Atividade): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(this.apiUrl, atividade);
   }
 
-  getAtividades() {
-    return this.atividades;
+  // Listar todas as atividades
+  getAtividades(): Observable<Atividade[]> {
+    return this.http.get<ApiResponse>(this.apiUrl).pipe(
+      map(response => {
+        if (response.status === 'success' && response.data) {
+          return response.data as Atividade[];
+        }
+        return [];
+      })
+    );
+  }
+
+  // Atualizar atividade
+  updateAtividade(atividade: Atividade): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(this.apiUrl, atividade);
+  }
+
+  // Excluir atividade
+  deleteAtividade(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.apiUrl}?id=${id}`);
+  }
+
+  // Obter atividades recentes
+  getAtividadesRecentes(): Observable<Atividade[]> {
+    return this.getAtividades().pipe(
+      map(atividades => {
+        return atividades
+          .sort((a, b) => new Date(a.dataEntrega).getTime() - new Date(b.dataEntrega).getTime())
+          .slice(0, 3);
+      })
+    );
   }
 
   // Método para contar atividades
-  getContagemAtividades() {
-    return this.atividades.length;
+  getContagemAtividades(): Observable<number> {
+    return this.getAtividades().pipe(
+      map(atividades => atividades.length)
+    );
   }
 
   // Método para contar matérias diferentes
-  getContagemMaterias() {
-    const materias = new Set(this.atividades.map(atividade => atividade.materia));
-    return materias.size;
-  }
-
-  // Método para obter atividades recentes (exemplo: as 3 mais recentes)
-  getAtividadesRecentes() {
-    return this.atividades
-      .sort((a, b) => new Date(a.dataEntrega).getTime() - new Date(b.dataEntrega).getTime())
-      .slice(0, 3); // Retorna as 3 atividades mais próximas
-  }
-
-  // Método para obter notificações (exemplo: pode ser um número fixo ou dinâmico)
-  getNotificacoes() {
-    // Aqui você pode implementar a lógica para contar notificações
-    return 3; // Exemplo fixo
+  getContagemMaterias(): Observable<number> {
+    return this.getAtividades().pipe(
+      map(atividades => {
+        const materias = new Set(atividades.map(atividade => atividade.materia));
+        return materias.size;
+      })
+    );
   }
 }

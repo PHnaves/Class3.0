@@ -1,31 +1,63 @@
 <ion-app>
-    <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane contentId="main-content">
+    <!-- Menu lateral -->
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+        <!-- Cabeçalho do menu com informações do usuário -->
+        <div class="menu-header">
+          <div class="user-info">
+            <ion-avatar>
+              <img src="assets/imagens/logo-sem-escrita.png" alt="Avatar">
+            </ion-avatar>
+            <div class="user-details">
+              <h2>{{ userName }}</h2>
+              <p>{{ userEmail }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista principal de navegação -->
+        <ion-list class="menu-list">
+          <ion-list-header>
+            <ion-label>Principal</ion-label>
+          </ion-list-header>
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+            <ion-item 
+              [routerDirection]="'root'" 
+              [routerLink]="[p.url]" 
+              lines="none" 
+              detail="false" 
+              routerLinkActive="selected">
+              <ion-icon slot="start" [name]="p.icon"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <!-- Lista de utilidades -->
+        <ion-list class="menu-list">
+          <ion-list-header>
+            <ion-label>Utilidades</ion-label>
+          </ion-list-header>
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of utilPages">
+            <ion-item 
+              [routerDirection]="'root'" 
+              [routerLink]="[p.url]" 
+              lines="none" 
+              detail="false" 
+              routerLinkActive="selected">
+              <ion-icon slot="start" [name]="p.icon"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+      </ion-content>
+    </ion-menu>
+
+    <!-- Conteúdo principal -->
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
 </ion-app>
-
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home" [routerLink]="['/tabs/home']">
-      <ion-icon src="assets/icon/home.svg"></ion-icon>
-    </ion-tab-button>
-
-    <ion-tab-button tab="materias" [routerLink]="['/tabs/materias']">
-      <ion-icon name="time-outline"></ion-icon>
-    </ion-tab-button>
-
-    <ion-tab-button tab="calendario" [routerLink]="['/tabs/calendario']">
-      <ion-icon name="calendar-outline"></ion-icon>
-    </ion-tab-button>
-
-    <ion-tab-button tab="notificacoes" [routerLink]="['/tabs/notificacoes']">
-      <ion-icon name="notifications-outline"></ion-icon>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
-
-<!-- para nao rdenriza na pagina de login -->
-  <ng-container *ngIf="!isLoginPage(); else loginLayout">
-  </ng-container>
-  <ng-template #loginLayout>
-    <router-outlet></router-outlet>
-  </ng-template>
-

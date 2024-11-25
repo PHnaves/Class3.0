@@ -1,116 +1,75 @@
-<ion-menu contentId="main-content" side="start">
-  <ion-header>
-    <ion-toolbar color="">
-      <ion-title class="menu-title">Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <ion-list>
-      <ion-item routerLink="/perfil" detail="false">
-        <ion-icon slot="start" name="person-circle"></ion-icon>
-        <ion-label>Perfil do Usuário</ion-label>
-      </ion-item>
-      <ion-item routerLink="/termos" detail="false">
-        <ion-icon slot="start" name="document-text"></ion-icon>
-        <ion-label>Termos de Uso</ion-label>
-      </ion-item>
-      <ion-item routerLink="/settings" detail="false">
-        <ion-icon slot="start" name="settings"></ion-icon>
-        <ion-label>Configurações</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<div class="ion-page" id="main-content">
-  <!-- Header -->
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="header-title" color="success">Home</ion-title>
-      <ion-buttons slot="end">
-        <img class="logo" src="assets/imagens/logo-sem-escrita.png" alt="Logo" />
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <!-- Cards de estatísticas -->
+  <div class="stats-grid">
+    <ion-card class="stats-card">
+      <ion-card-content>
+        <ion-icon name="list"></ion-icon>
+        <h2>{{ contagemAtividades }}</h2>
+        <p>Atividades</p>
+      </ion-card-content>
+    </ion-card>
 
-  <!-- Main content -->
-  <ion-content [fullscreen]="true">
-    <div class="ion-padding">
-      <ion-grid fixed>
-        <ion-row>
-          <ion-col size="6">
-            <ion-card class="night">
-              <ion-card-content routerLink="/atividades">
-                <div class="title">
-                  <ion-icon name="book-outline" class="fl"></ion-icon>
-                  <p>Atividades</p>
-                  <h2>{{ contagemAtividades }}</h2>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card class="medium">
-              <ion-card-content>
-                <div class="title">
-                  <ion-icon name="mail-outline" class="fl"></ion-icon>
-                  <p>Notificações</p>
-                  <h2>{{ contagemNotificacoes }}</h2>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card class="medium">
-              <ion-card-content>
-                <div class="title">
-                  <ion-icon name="bar-chart-outline" class="fl"></ion-icon>
-                  <p>Matérias Diferentes</p>
-                  <h2>{{ contagemMaterias }}</h2>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="6">
-            <ion-card class="medium">
-              <ion-card-content>
-                <div class="title">
-                  <ion-icon name="reader-outline" class="fl"></ion-icon>
-                  <p>Atividades Recentes</p>
-                  <h2>{{ atividadesRecentes.length }}</h2>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-          <ion-col size="12">
-            <ion-card class="medium">
-              <ion-row>
-                <ion-col size="6">
-                  <ion-card-content>
-                    <div class="title">
-                      <ion-icon name="time-outline" class="fl"></ion-icon>
-                      <p>Próxima Atividade</p>
-                      <h2 *ngIf="atividadesRecentes.length > 0">{{ atividadesRecentes[0].descricao }}</h2>
-                    </div>
-                  </ion-card-content>
-                </ion-col>
-                <ion-col size="6">
-                  <ion-card-content>
-                    <div class="title">
-                      <p class="mb" *ngIf="atividadesRecentes.length > 0">
-                        {{ atividadesRecentes[0].dataEntrega | date:'shortTime' }}
-                      </p>
-                    </div>
-                  </ion-card-content>
-                </ion-col>
-              </ion-row>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-  </ion-content>
-</div>
+    <ion-card class="stats-card">
+      <ion-card-content>
+        <ion-icon name="book"></ion-icon>
+        <h2>{{ contagemMaterias }}</h2>
+        <p>Matérias</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="stats-card">
+      <ion-card-content>
+        <ion-icon name="notifications"></ion-icon>
+        <h2>{{ contagemNotificacoes }}</h2>
+        <p>Notificações</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Seção de Atividades Recentes -->
+  <ion-card class="recent-activities">
+    <ion-card-header>
+      <ion-card-title>Atividades Recentes</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let atividade of atividadesRecentes" (click)="verDetalhes(atividade)" button>
+          <ion-label>
+            <h2>{{ atividade.descricao }}</h2>
+            <p>{{ atividade.materia }}</p>
+            <p>Entrega: {{ formatarData(atividade.dataEntrega) }}</p>
+          </ion-label>
+          <ion-note slot="end" color="primary">
+            {{ atividade.nota || '-' }}
+          </ion-note>
+        </ion-item>
+
+        <!-- Mensagem quando não há atividades -->
+        <ion-item *ngIf="atividadesRecentes.length === 0" lines="none">
+          <ion-label class="ion-text-center">
+            <p>Nenhuma atividade recente</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botão flutuante para adicionar atividade -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/criar-atividade">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

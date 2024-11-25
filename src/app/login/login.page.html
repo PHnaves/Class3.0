@@ -1,45 +1,72 @@
-<!-- <ion-app class="login-page">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Login</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <router-outlet></router-outlet>
-
-  <ion-content class="ion-padding login-background">
-    <div class="login-container">
-      <h1>Bem-vindo de volta!</h1>
-      <form (ngSubmit)="onLogin()">
-        <ion-item>
-          <ion-icon name="person" slot="start"></ion-icon>
-          <ion-label position="floating">Usuário</ion-label>
-          <ion-input type="text" required [(ngModel)]="username" name="username"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="lock-closed" slot="start"></ion-icon>
-          <ion-label position="floating">Senha</ion-label>
-          <ion-input type="password" required [(ngModel)]="password" name="password"></ion-input>
-        </ion-item>
-        <ion-button expand="full" type="submit" color="primary" class="login-button">Entrar</ion-button>
-      </form>
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="assets/imagens/logo ClassConect.png" alt="ClassConnect Logo">
     </div>
-  </ion-content>
-</ion-app> -->
 
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+    <!-- Formulário de Login -->
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+      <!-- Mensagem de erro -->
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
 
-<ion-content>
-  <ion-item>
-    <ion-label position="floating">RA ou Email</ion-label>
-    <ion-input [(ngModel)]="identifier"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Senha</ion-label>
-    <ion-input type="password" [(ngModel)]="password"></ion-input>
-  </ion-item>
-  <ion-button expand="full" (click)="login()">Entrar</ion-button>
+      <!-- Email -->
+      <ion-item class="form-item">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input 
+          type="email" 
+          [(ngModel)]="loginData.email" 
+          name="email" 
+          required 
+          email
+          #email="ngModel">
+        </ion-input>
+      </ion-item>
+      <div class="validation-error" *ngIf="email.invalid && (email.dirty || email.touched)">
+        <div *ngIf="email.errors?.['required']">Email é obrigatório</div>
+        <div *ngIf="email.errors?.['email']">Email inválido</div>
+      </div>
+
+      <!-- Senha -->
+      <ion-item class="form-item">
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input 
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="loginData.senha" 
+          name="senha" 
+          required
+          minlength="6"
+          #senha="ngModel">
+        </ion-input>
+        <ion-icon 
+          [name]="showPassword ? 'eye-off' : 'eye'"
+          (click)="togglePassword()"
+          slot="end"
+          class="password-toggle">
+        </ion-icon>
+      </ion-item>
+      <div class="validation-error" *ngIf="senha.invalid && (senha.dirty || senha.touched)">
+        <div *ngIf="senha.errors?.['required']">Senha é obrigatória</div>
+        <div *ngIf="senha.errors?.['minlength']">Senha deve ter no mínimo 6 caracteres</div>
+      </div>
+
+      <!-- Botão de Login -->
+      <ion-button 
+        expand="block" 
+        type="submit" 
+        [disabled]="!loginForm.valid || isLoading"
+        class="login-button">
+        <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">Entrar</span>
+      </ion-button>
+
+      <!-- Link para Registro -->
+      <div class="register-link">
+        Não tem uma conta? 
+        <a (click)="goToRegister()">Registre-se</a>
+      </div>
+    </form>
+  </div>
 </ion-content>

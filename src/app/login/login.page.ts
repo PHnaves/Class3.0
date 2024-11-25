@@ -1,54 +1,8 @@
-// // import { Component, OnInit } from '@angular/core';
-
-// // @Component({
-// //   selector: 'app-login',
-// //   templateUrl: './login.page.html',
-// //   styleUrls: ['./login.page.scss'],
-// // })
-// // export class LoginPage implements OnInit {
-
-// //   constructor() { }
-
-// //   ngOnInit() {
-// //   }
-
-// // }
-
-// import { Component } from '@angular/core';
-// import { AuthService } from '../services/auth.service';
-// import { NavController } from '@ionic/angular';
-
-// @Component({
-//   selector: 'app-login',
-//   templateUrl: './login.page.html',
-//   styleUrls: ['./login.page.scss'],
-// })
-// export class LoginPage {
-//   username: string = '';
-//   password: string = '';
-
-//   constructor(private authService: AuthService, private navCtrl: NavController) {}
-
-//   onLogin() {
-//     this.authService.login(this.username, this.password).subscribe(response => {
-//       if (response.success) {
-//         // Salve o token ou informações do usuário
-//         localStorage.setItem('token', response.token);
-//         // Navegue para a página principal ou dashboard
-//         this.navCtrl.navigateRoot('/home');
-//       } else {
-//         // Trate o erro de login
-//         alert('Login falhou. Verifique suas credenciais.');
-//       }
-//     }, error => {
-//       console.error('Erro ao fazer login', error);
-//       alert('Erro ao fazer login. Tente novamente.');
-//     });
-//   }
-// }
-
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { ToastController } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -56,19 +10,98 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  identifier: string = ''; // Pode ser o RA ou email
-  password: string = '';
+  loginData = {
+    email: '',
+    senha: ''
+  };
 
-  constructor(private authService: AuthService) {}
+  isLoading = false;
+  errorMessage = '';
+  showPassword = false;
 
-  login() {
-    this.authService.login(this.identifier, this.password).subscribe(response => {
-      if (response.success) {
-        console.log('Login bem-sucedido:', response.message);
-        // Redirecionar ou armazenar token
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastController: ToastController
+  ) {}
+
+  ionViewWillEnter() {
+    // Limpar dados do formulário quando a página for carregada
+    this.loginData = {
+      email: '',
+      senha: ''
+    };
+    this.errorMessage = '';
+    this.isLoading = false;
+  }
+
+  async onSubmit() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    try {
+      const response = await this.authService.login(this.loginData.email, this.loginData.senha).toPromise();
+      
+      if (response.status === 'success') {
+        const toast = await this.toastController.create({
+          message: 'Login realizado com sucesso!',
+          duration: 2000,
+          position: 'top',
+          color: 'success'
+        });
+        await toast.present();
+        
+        // Redirecionar para a página principal
+        this.router.navigate(['/home']);
       } else {
-        console.error('Erro no login:', response.message);
+        this.errorMessage = response.message || 'Erro ao fazer login';
       }
-    });
+    } catch (error) {
+      console.error('Erro no login:', error);
+      this.errorMessage = 'Erro ao conectar com o servidor. Tente novamente.';
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  // Validação personalizada do formulário
+  validateForm(form: NgForm): boolean {
+    if (form.invalid) {
+      Object.keys(form.controls).forEach(key => {
+        const control = form.controls[key];
+        if (control.invalid) {
+          control.markAsTouched();
+        }
+      });
+      return false;
+    }
+    return true;
+  }
+
+  // Limpar mensagem de erro quando o usuário começa a digitar
+  onInput() {
+    if (this.errorMessage) {
+      this.errorMessage = '';
+    }
+  }
+
+  // Método para lidar com o envio do formulário pelo teclado
+  async onKeyPress(event: KeyboardEvent, form: NgForm) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (this.validateForm(form)) {
+        await this.onSubmit();
+      }
+    }
   }
 }

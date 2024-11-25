@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { PerfilPage } from './perfil.page';
+import { PerfilPage } from './perfil.page'; // Verifique se o caminho está correto
 
 const routes: Routes = [
   {
     path: '',
-    component: PerfilPage
-  }
+    component: PerfilPage },
 ];
 
 @NgModule({

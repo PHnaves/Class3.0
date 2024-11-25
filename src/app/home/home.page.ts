@@ -1,18 +1,5 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-home',
-//   templateUrl: 'home.page.html',
-//   styleUrls: ['home.page.scss'],
-// })
-// export class HomePage {
-
-//   constructor() {}
-
-// }
-
 import { Component, OnInit } from '@angular/core';
-import { AtividadeService } from '../atividade.service'; // Ajuste o caminho conforme necessário
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,17 +7,52 @@ import { AtividadeService } from '../atividade.service'; // Ajuste o caminho con
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  contagemAtividades: number = 0; // Inicializa com 0
-  contagemMaterias: number = 0; // Inicializa com 0
-  atividadesRecentes: any[] = []; // Inicializa como array vazio
-  contagemNotificacoes: number = 0; // Inicializa com 0
+  // Dados mockados para teste
+  contagemAtividades: number = 5;
+  contagemMaterias: number = 3;
+  contagemNotificacoes: number = 2;
+  atividadesRecentes = [
+    {
+      id: 1,
+      descricao: 'Trabalho de Matemática',
+      materia: 'Matemática',
+      dataEntrega: '2024-02-20',
+      nota: 10
+    },
+    {
+      id: 2,
+      descricao: 'Apresentação de História',
+      materia: 'História',
+      dataEntrega: '2024-02-25',
+      nota: 8.5
+    },
+    {
+      id: 3,
+      descricao: 'Projeto de Ciências',
+      materia: 'Ciências',
+      dataEntrega: '2024-03-01',
+      nota: 9.0
+    }
+  ];
 
-  constructor(private atividadeService: AtividadeService) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    this.contagemAtividades = this.atividadeService.getContagemAtividades();
-    this.contagemMaterias = this.atividadeService.getContagemMaterias();
-    this.atividadesRecentes = this.atividadeService.getAtividadesRecentes();
-    this.contagemNotificacoes = this.atividadeService.getNotificacoes();
+    // Inicialização básica
+  }
+
+  // Método para formatar a data
+  formatarData(data: string): string {
+    return new Date(data).toLocaleDateString('pt-BR');
+  }
+
+  // Método para navegar para os detalhes da atividade
+  verDetalhes(atividade: any) {
+    this.router.navigate(['/detalhes-atividade', { id: atividade.id }]);
+  }
+
+  // Método para criar nova atividade
+  criarAtividade() {
+    this.router.navigate(['/criar-atividade']);
   }
 }
