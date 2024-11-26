@@ -53,15 +53,6 @@
     margin: 4px 8px;
     border-radius: 8px;
     --background: transparent;
-    
-    &.selected {
-      --background: var(--ion-color-primary-tint);
-      --color: var(--ion-color-primary);
-      
-      ion-icon {
-        color: var(--ion-color-primary);
-      }
-    }
 
     &:hover {
       --background: var(--ion-color-light-shade);

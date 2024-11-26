@@ -31,12 +31,18 @@ export class CriarAtividadePage implements OnInit {
     this.materias = this.materiaService.getMaterias();
   }
 
-  onSubmit() {
+onSubmit() {
     this.isLoading = true;
     this.errorMessage = '';
 
+    // Format the date before sending
+    const formattedAtividade = {
+      ...this.atividade,
+      dataEntrega: this.formatDate(this.atividade.dataEntrega)
+    };
+
     // Adicionar a atividade usando o serviço atualizado que integra com o banco
-    this.atividadeService.addAtividade(this.atividade).subscribe(
+    this.atividadeService.addAtividade(formattedAtividade).subscribe(
       (response) => {
         console.log('Atividade criada com sucesso:', response);
         this.isLoading = false;
@@ -50,12 +56,19 @@ export class CriarAtividadePage implements OnInit {
     );
   }
 
-  // Método para validar o formulário antes do envio
+// Método para validar o formulário antes do envio
   isFormValid(): boolean {
     return (
       this.atividade.descricao.trim() !== '' &&
       this.atividade.dataEntrega !== '' &&
       this.atividade.materia !== ''
     );
+  }
+
+  // Método para formatar a data no formato aceito pelo MySQL (YYYY-MM-DD)
+  private formatDate(date: string): string {
+    if (!date) return '';
+    const d = new Date(date);
+    return d.toISOString().split('T')[0];
   }
 }

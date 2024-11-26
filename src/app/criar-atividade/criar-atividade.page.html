@@ -33,11 +33,15 @@
       <ion-datetime-button datetime="datetime"></ion-datetime-button>
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
-          <ion-datetime 
+<ion-datetime 
             id="datetime"
             [(ngModel)]="atividade.dataEntrega"
             name="dataEntrega"
             presentation="date"
+            locale="pt-BR"
+            firstDayOfWeek="0"
+            min="2023"
+            max="2025"
             required>
           </ion-datetime>
         </ng-template>
