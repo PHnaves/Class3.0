@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AtividadeService, Atividade } from '../atividade.service';
-import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-atividades',
@@ -10,76 +8,55 @@ import { LoadingController } from '@ionic/angular';
 })
 export class AtividadesPage implements OnInit {
   atividades: Atividade[] = [];
+  materias: string[] = ['Matemática', 'Física', 'Química']; // Exemplo de matérias
+  selectedMateria: string = '';
   errorMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(
-    private router: Router, 
-    private atividadeService: AtividadeService,
-    private loadingController: LoadingController
-  ) {}
+  constructor(private atividadeService: AtividadeService) {}
 
-  async ngOnInit() {
-    await this.loadAtividades();
+  ngOnInit() {
+    this.loadAtividades();
   }
 
-  async ionViewWillEnter() {
-    // Recarrega as atividades sempre que a página for exibida
-    await this.loadAtividades();
-  }
-
-  async loadAtividades() {
-    const loading = await this.loadingController.create({
-      message: 'Carregando atividades...'
-    });
-    await loading.present();
-
+  loadAtividades() {
+    this.isLoading = true;
     this.atividadeService.getAtividades().subscribe(
-      (atividades) => {
+      atividades => {
         this.atividades = atividades;
-        this.errorMessage = '';
-        loading.dismiss();
+        this.isLoading = false;
       },
-      (error) => {
-        console.error('Erro ao carregar atividades:', error);
-        this.errorMessage = 'Erro ao carregar atividades. Por favor, tente novamente.';
-        loading.dismiss();
+      error => {
+        this.errorMessage = 'Erro ao carregar as atividades.';
+        this.isLoading = false;
       }
     );
   }
 
-  verDetalhes(atividade: Atividade) {
-    this.router.navigate(['/detalhes-atividade', { id: atividade.id }]);
+  filterByMateria() {
+    return this.atividades.filter(atividade => atividade.materia === this.selectedMateria);
   }
 
   criarAtividade() {
-    this.router.navigate(['/criar-atividade']);
+    // Navegar para a página de criar atividade
+    // Isso pode ser feito usando o Router
   }
 
-  // Formata a data para exibição
-  formatarData(data: string): string {
-    return new Date(data).toLocaleDateString('pt-BR');
+  doRefresh(event: any) {
+    this.loadAtividades();
+    event.target.complete();
   }
 
-  // Retorna a classe CSS baseada no status da atividade
+  verDetalhes(atividade: Atividade) {
+    // Navegar para a página de detalhes da atividade
+  }
+
   getStatusClass(dataEntrega: string): string {
-    const hoje = new Date();
-    const dataLimite = new Date(dataEntrega);
-    
-    if (dataLimite < hoje) {
-      return 'atrasada';
-    } else if (dataLimite.getTime() - hoje.getTime() <= 3 * 24 * 60 * 60 * 1000) {
-      return 'proxima';
-    }
-    return 'em-dia';
+    // Implementar a lógica para retornar a classe com base na data de entrega
+    return ''; // Retornar a classe apropriada
   }
 
-  // Atualiza a lista usando pull-to-refresh
-  async doRefresh(event: any) {
-    try {
-      await this.loadAtividades();
-    } finally {
-      event.target.complete();
-    }
+  formatarData(data: string): string {
+    return new Date(data).toLocaleDateString('pt-BR'); // Formatar a data
   }
 }

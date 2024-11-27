@@ -1,3 +1,4 @@
+<!-- src/app/criar-atividade/criar-atividade.page.html -->
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -9,16 +10,8 @@
 
 <ion-content class="ion-padding">
   <form (ngSubmit)="onSubmit()" #atividadeForm="ngForm">
-    <!-- Mensagem de erro -->
-    <ion-item *ngIf="errorMessage" lines="none" color="danger">
-      <ion-text color="danger">
-        {{ errorMessage }}
-      </ion-text>
-    </ion-item>
-
-    <!-- Campo Descrição -->
     <ion-item>
-      <ion-label position="stacked">Descrição <ion-text color="danger">*</ion-text></ion-label>
+      <ion-label position="stack ed">Descrição <ion-text color="danger">*</ion-text></ion-label>
       <ion-input 
         type="text" 
         [(ngModel)]="atividade.descricao" 
@@ -27,28 +20,17 @@
       </ion-input>
     </ion-item>
 
-    <!-- Campo Data de Entrega -->
     <ion-item>
       <ion-label position="stacked">Data de Entrega <ion-text color="danger">*</ion-text></ion-label>
-      <ion-datetime-button datetime="datetime"></ion-datetime-button>
-      <ion-modal [keepContentsMounted]="true">
-        <ng-template>
-<ion-datetime 
-            id="datetime"
-            [(ngModel)]="atividade.dataEntrega"
-            name="dataEntrega"
-            presentation="date"
-            locale="pt-BR"
-            firstDayOfWeek="0"
-            min="2023"
-            max="2025"
-            required>
-          </ion-datetime>
-        </ng-template>
-      </ion-modal>
+      <ion-datetime 
+        [(ngModel)]="atividade.dataEntrega" 
+        name="dataEntrega" 
+        presentation="date" 
+        locale="pt-BR" 
+        required>
+      </ion-datetime>
     </ion-item>
 
-    <!-- Campo Nota -->
     <ion-item>
       <ion-label position="stacked">Nota Esperada</ion-label>
       <ion-input 
@@ -61,7 +43,6 @@
       </ion-input>
     </ion-item>
 
-    <!-- Campo Matéria -->
     <ion-item>
       <ion-label position="stacked">Matéria <ion-text color="danger">*</ion-text></ion-label>
       <ion-select 
@@ -74,14 +55,12 @@
       </ion-select>
     </ion-item>
 
-    <!-- Botão de Submit -->
     <ion-button 
       expand="block" 
       type="submit" 
-      [disabled]="!isFormValid() || isLoading" 
+      [disabled]="!isFormValid()" 
       class="ion-margin-top">
-      <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
-      <span *ngIf="!isLoading">Criar Atividade</span>
+      Criar Atividade
     </ion-button>
   </form>
 </ion-content>
