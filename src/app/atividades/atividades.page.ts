@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AtividadeService, Atividade } from '../atividade.service';
+import { AtividadeService } from '../atividade.service';
+import { MateriaService } from '../materia.service';
 
 @Component({
   selector: 'app-atividades',
@@ -7,56 +8,29 @@ import { AtividadeService, Atividade } from '../atividade.service';
   styleUrls: ['./atividades.page.scss'],
 })
 export class AtividadesPage implements OnInit {
-  atividades: Atividade[] = [];
-  materias: string[] = ['Matemática', 'Física', 'Química']; // Exemplo de matérias
-  selectedMateria: string = '';
-  errorMessage: string = '';
-  isLoading: boolean = false;
+  atividades: any[] = [];
+  materias: string[] = []; // Definindo a variável 'materias' que estava faltando
+  materiaSelecionada: string = '';
 
-  constructor(private atividadeService: AtividadeService) {}
+  constructor(
+    private atividadeService: AtividadeService,
+    private materiaService: MateriaService
+  ) {}
 
   ngOnInit() {
-    this.loadAtividades();
+    // Obtém todas as atividades e matérias ao inicializar a página
+    this.atividadeService.getAtividades().subscribe((atividades) => {
+      this.atividades = atividades;
+    });
+
+    // Obtém as matérias do serviço MateriaService
+    this.materias = this.materiaService.getMaterias();
   }
 
-  loadAtividades() {
-    this.isLoading = true;
-    this.atividadeService.getAtividades().subscribe(
-      atividades => {
-        this.atividades = atividades;
-        this.isLoading = false;
-      },
-      error => {
-        this.errorMessage = 'Erro ao carregar as atividades.';
-        this.isLoading = false;
-      }
-    );
-  }
-
-  filterByMateria() {
-    return this.atividades.filter(atividade => atividade.materia === this.selectedMateria);
-  }
-
-  criarAtividade() {
-    // Navegar para a página de criar atividade
-    // Isso pode ser feito usando o Router
-  }
-
-  doRefresh(event: any) {
-    this.loadAtividades();
-    event.target.complete();
-  }
-
-  verDetalhes(atividade: Atividade) {
-    // Navegar para a página de detalhes da atividade
-  }
-
-  getStatusClass(dataEntrega: string): string {
-    // Implementar a lógica para retornar a classe com base na data de entrega
-    return ''; // Retornar a classe apropriada
-  }
-
-  formatarData(data: string): string {
-    return new Date(data).toLocaleDateString('pt-BR'); // Formatar a data
+  // Filtra as atividades com base na matéria selecionada
+  filtrarAtividadesPorMateria() {
+    if (this.materiaSelecionada) {
+      this.atividades = this.atividadeService.getAtividadesPorMateria(this.materiaSelecionada);
+    }
   }
 }

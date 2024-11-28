@@ -1,75 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Minhas Atividades</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="criarAtividade()">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>Atividades</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- Pull to refresh -->
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
-
-  <ion-item *ngIf="errorMessage" lines="none">
-    <ion-text color="danger">
-      {{ errorMessage }}
-    </ion-text>
+  <ion-item>
+    <ion-label>Selecione uma Matéria</ion-label>
+    <ion-select [(ngModel)]="materiaSelecionada" (ionChange)="filtrarAtividadesPorMateria()">
+      <ion-select-option *ngFor="let materia of materias" [value]="materia">
+        {{ materia }}
+      </ion-select-option>
+    </ion-select>
   </ion-item>
 
-  <!-- Loading spinner -->
-  <div *ngIf="isLoading" class="ion-text-center ion-padding">
-    <ion-spinner></ion-spinner>
-  </div>
-
-  <!-- Lista de atividades -->
-  <ion-list *ngIf="!isLoading">
-    <!-- Mensagem quando não há atividades -->
-    <ion-item *ngIf="atividades.length === 0" lines="none">
-      <ion-label class="ion-text-center">
-        Nenhuma atividade encontrada.
-        <br>
-        <ion-button fill="clear" (click)="criarAtividade()">
-          Criar nova atividade
-        </ion-button>
+  <ion-list>
+    <ion-item *ngFor="let atividade of atividades">
+      <ion-label>
+        <h2>{{ atividade.descricao }}</h2>
+        <p>Data de entrega: {{ atividade.dataEntrega }}</p>
+        <p>Nota: {{ atividade.nota }}</p>
       </ion-label>
     </ion-item>
-
-    <!-- Cards das atividades -->
-    <ion-card *ngFor="let atividade of atividades" (click)="verDetalhes(atividade)" [class]="getStatusClass(atividade.dataEntrega)">
-      <ion-card-header>
-        <ion-card-subtitle>{{ atividade.materia }}</ion-card-subtitle>
-        <ion-card-title>{{ atividade.descricao }}</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="6">
-              <ion-icon name="calendar-outline"></ion-icon>
-              Data de Entrega:
-              <strong>{{ formatarData(atividade.dataEntrega) }}</strong>
-            </ion-col>
-            <ion-col size="6" *ngIf="atividade.nota">
-              <ion-icon name="star-outline"></ion-icon>
-              Nota Esperada: 
-              <strong>{{ atividade.nota }}</strong>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
   </ion-list>
-
-  <!-- Botão flutuante para criar atividade -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="criarAtividade()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>

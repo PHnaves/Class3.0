@@ -1,66 +1,35 @@
-<!-- src/app/criar-atividade/criar-atividade.page.html -->
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/atividades"></ion-back-button>
-    </ion-buttons>
     <ion-title>Criar Atividade</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <form (ngSubmit)="onSubmit()" #atividadeForm="ngForm">
+<ion-content>
+  <form (ngSubmit)="onSubmit()" *ngIf="materias.length">
     <ion-item>
-      <ion-label position="stack ed">Descrição <ion-text color="danger">*</ion-text></ion-label>
-      <ion-input 
-        type="text" 
-        [(ngModel)]="atividade.descricao" 
-        name="descricao" 
-        required>
-      </ion-input>
+      <ion-label position="floating">Descrição</ion-label>
+      <ion-input [(ngModel)]="atividade.descricao" name="descricao" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Data de Entrega <ion-text color="danger">*</ion-text></ion-label>
-      <ion-datetime 
-        [(ngModel)]="atividade.dataEntrega" 
-        name="dataEntrega" 
-        presentation="date" 
-        locale="pt-BR" 
-        required>
-      </ion-datetime>
+      <ion-label position="floating">Data de Entrega</ion-label>
+      <ion-input [(ngModel)]="atividade.dataEntrega" name="dataEntrega" type="date" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Nota Esperada</ion-label>
-      <ion-input 
-        type="number" 
-        [(ngModel)]="atividade.nota" 
-        name="nota" 
-        min="0" 
-        max="10" 
-        step="0.1">
-      </ion-input>
+      <ion-label position="floating">Nota</ion-label>
+      <ion-input [(ngModel)]="atividade.nota" name="nota" type="number" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Matéria <ion-text color="danger">*</ion-text></ion-label>
-      <ion-select 
-        [(ngModel)]="atividade.materia" 
-        name="materia" 
-        required>
-        <ion-select-option *ngFor="let materia of materias" [value]="materia.nome">
-          {{materia.nome}}
+      <ion-label>Matéria</ion-label>
+      <ion-select [(ngModel)]="atividade.materia" name="materia" required>
+        <ion-select-option *ngFor="let materia of materias" [value]="materia">
+          {{ materia }}
         </ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-button 
-      expand="block" 
-      type="submit" 
-      [disabled]="!isFormValid()" 
-      class="ion-margin-top">
-      Criar Atividade
-    </ion-button>
+    <ion-button expand="full" type="submit" [disabled]="!isFormValid()">Salvar</ion-button>
   </form>
 </ion-content>
