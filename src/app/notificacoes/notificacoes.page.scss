@@ -34,9 +34,6 @@
     --background: rgba(255, 255, 255, 0.1); // Efeito de hover
   }
   
-  ion-icon {
-    color: green; // Cor dos ícones
-  }
 
 .p-4 {
     padding: 0 4px;
@@ -74,3 +71,53 @@ ion-item:first-of-type {
         }
     }
 }
+
+/* Adicionando estilo para as notificações */
+.notification-card {
+  margin-bottom: 15px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.notification-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--ion-color-primary);
+}
+
+ion-card-title {
+  display: flex;
+  align-items: center;
+}
+
+ion-avatar {
+  margin: 10px;
+  border-radius: 50%;
+}
+
+.notification-text {
+  font-size: 14px;
+  color: var(--ion-color-dark);
+}
+
+.notifications-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: var(--ion-color-primary);
+}
+
+ion-button {
+  margin-top: 10px;
+}
+
+ion-card-footer {
+  padding: 10px;
+}
+
+ion-card-content {
+  font-size: 14px;
+  color: var(--ion-color-dark);
+}
+

@@ -49,20 +49,6 @@
         </ion-row>
       </ion-grid>
 
-      <!-- Sort Options -->
-      <!-- <h4 class="p-4">
-        All
-        <span class="fr link">
-          Ordenar:
-          <ion-select [(ngModel)]="sortOption" (ionChange)="sortMaterias()">
-            <ion-select-option value="alfabetica">Alfabética</ion-select-option>
-            <ion-select-option value="maisAtividades">Mais Atividades</ion-select-option>
-            <ion-select-option value="menosAtividades">Menos Atividades</ion-select-option>
-          </ion-select>
-          <ion-icon class="sort-icon" name="chevron-down-outline"></ion-icon>
-        </span>
-      </h4> -->
-
       <ion-grid fixed>
         <ion-row>
           <ion-col size="12" *ngFor="let materia of filteredMaterias">

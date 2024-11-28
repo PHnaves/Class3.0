@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Atividades</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,12 +15,18 @@
   </ion-item>
 
   <ion-list>
-    <ion-item *ngFor="let atividade of atividades">
-      <ion-label>
-        <h2>{{ atividade.descricao }}</h2>
-        <p>Data de entrega: {{ atividade.dataEntrega }}</p>
+    <ion-card *ngFor="let atividade of atividades" [ngClass]="{
+      'atrasada': atividade.status === 'atrasada',
+      'proxima': atividade.status === 'proxima',
+      'em-dia': atividade.status === 'em-dia'
+    }">
+      <ion-card-header>
+        <ion-card-title>{{ atividade.descricao }}</ion-card-title>
+        <ion-card-subtitle>Data de entrega: {{ atividade.dataEntrega }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
         <p>Nota: {{ atividade.nota }}</p>
-      </ion-label>
-    </ion-item>
+      </ion-card-content>
+    </ion-card>
   </ion-list>
 </ion-content>

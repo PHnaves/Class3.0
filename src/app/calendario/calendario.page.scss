@@ -29,9 +29,7 @@
     border-radius: 8px; // Bordas arredondadas
   }
   
-  ion-icon {
-    color: green; // Cor dos ícones
-  }
+
 
 ion-datatime{
   margin-bottom: 20px;
@@ -45,14 +43,33 @@ ion-input{
   margin-left: 10px;
 }
 
+
 .mark-item {
   font-size: 1rem;
   padding: 8px 0;
 }
 
-.input-color ion-input {
+.input-color {
   max-width: 80px;
   margin-left: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-color[type="color"] {
+  padding: 0;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.input-color[type="color"]:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 
