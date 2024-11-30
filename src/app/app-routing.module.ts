@@ -4,13 +4,16 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-    // AuthGuard removido temporariamente
   },
   {
     path: 'atividades',
@@ -21,7 +24,7 @@ const routes: Routes = [
     loadChildren: () => import('./criar-atividade/criar-atividade.module').then(m => m.CriarAtividadePageModule)
   },
   {
-    path: 'detalhes-atividade',
+    path: 'detalhes-atividade/:id',
     loadChildren: () => import('./detalhes-atividade/detalhes-atividade.module').then(m => m.DetalhesAtividadePageModule)
   },
   {

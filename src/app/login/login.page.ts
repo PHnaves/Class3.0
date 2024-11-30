@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ToastController } from '@ionic/angular';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,14 +9,9 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  loginData = {
-    email: '',
-    senha: ''
-  };
-
-  isLoading = false;
-  errorMessage = '';
-  showPassword = false;
+  email: string = '';
+  senha: string = '';
+  role: 'professor' | 'aluno' = 'aluno';
 
   constructor(
     private authService: AuthService,
@@ -25,83 +19,46 @@ export class LoginPage {
     private toastController: ToastController
   ) {}
 
-  ionViewWillEnter() {
-    // Limpar dados do formulário quando a página for carregada
-    this.loginData = {
-      email: '',
-      senha: ''
-    };
-    this.errorMessage = '';
-    this.isLoading = false;
-  }
-
   async onSubmit() {
-    if (this.isLoading) return;
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    try {
-      const response = await this.authService.login(this.loginData.email, this.loginData.senha).toPromise();
-      
-      if (response.status === 'success') {
-        const toast = await this.toastController.create({
-          message: 'Login realizado com sucesso!',
-          duration: 2000,
-          position: 'top',
-          color: 'success'
-        });
-        await toast.present();
-        
-        // Redirecionar para a página principal
-        this.router.navigate(['/home']);
-      } else {
-        this.errorMessage = response.message || 'Erro ao fazer login';
-      }
-    } catch (error) {
-      console.error('Erro no login:', error);
-      this.errorMessage = 'Erro ao conectar com o servidor. Tente novamente.';
-    } finally {
-      this.isLoading = false;
+    if (!this.email || !this.senha) {
+      await this.showToast('Por favor, preencha todos os campos');
+      return;
     }
-  }
 
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
+    this.authService.login(this.email, this.senha).subscribe(
+      async (response) => {
+        if (response.status === 'success') {
+          const user = response.user;
+          
+          // Verificar se o tipo de usuário selecionado corresponde ao cadastrado
+          if (user.role !== this.role) {
+            await this.showToast(`Tipo de usuário incorreto. Você é um ${user.role}`);
+            return;
+          }
 
-  goToRegister() {
-    this.router.navigate(['/register']);
-  }
-
-  // Validação personalizada do formulário
-  validateForm(form: NgForm): boolean {
-    if (form.invalid) {
-      Object.keys(form.controls).forEach(key => {
-        const control = form.controls[key];
-        if (control.invalid) {
-          control.markAsTouched();
+          // Redirecionar com base no tipo de usuário
+          if (user.role === 'professor') {
+            this.router.navigate(['/criar-atividade']);
+          } else {
+            this.router.navigate(['/atividades']);
+          }
+        } else {
+          await this.showToast(response.message || 'Erro ao fazer login');
         }
-      });
-      return false;
-    }
-    return true;
-  }
-
-  // Limpar mensagem de erro quando o usuário começa a digitar
-  onInput() {
-    if (this.errorMessage) {
-      this.errorMessage = '';
-    }
-  }
-
-  // Método para lidar com o envio do formulário pelo teclado
-  async onKeyPress(event: KeyboardEvent, form: NgForm) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      if (this.validateForm(form)) {
-        await this.onSubmit();
+      },
+      async (error) => {
+        await this.showToast('Erro ao conectar ao servidor');
       }
-    }
+    );
+  }
+
+  private async showToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+      color: 'danger'
+    });
+    toast.present();
   }
 }

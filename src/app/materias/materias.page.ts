@@ -1,22 +1,7 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-materias',
-//   templateUrl: './materias.page.html',
-//   styleUrls: ['./materias.page.scss'],
-// })
-// export class MateriasPage implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MateriaService } from '../materia.service'; // Ajuste o caminho conforme necessário
+import { MateriaService, Materia } from '../materia.service';
+import { AtividadeService } from '../atividade.service';
 
 @Component({
   selector: 'app-materias',
@@ -24,29 +9,42 @@ import { MateriaService } from '../materia.service'; // Ajuste o caminho conform
   styleUrls: ['./materias.page.scss'],
 })
 export class MateriasPage implements OnInit {
-  materias: any[] = [];
-  filteredMaterias: any[] = [];
+  materias: Materia[] = [];
+  filteredMaterias: Materia[] = [];
   searchTerm: string = '';
-  sortOption: string = 'alfabetica'; // Opção de ordenação inicial
 
-  constructor(private materiaService: MateriaService, private router: Router) {}
+  constructor(
+    private materiaService: MateriaService,
+    private atividadeService: AtividadeService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.materias = this.materiaService.getMaterias();
-    this.filteredMaterias = this.materias;
+    this.materiaService.getMaterias().subscribe(materias => {
+      this.materias = materias;
+      this.filteredMaterias = materias;
+    });
   }
 
   filterMaterias() {
-    this.filteredMaterias = this.materias.filter(materia => 
-      materia.nome.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    if (!this.searchTerm.trim()) {
+      this.filteredMaterias = this.materias;
+    } else {
+      this.filteredMaterias = this.materias.filter(materia => 
+        materia.nome.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
   }
 
-  // sortMaterias() {
-  //   this.filteredMaterias = this.materiaService.getMateriasOrdenadas(this.sortOption);
-  // }
+  getAtividadesCount(materia: Materia): number {
+    return this.atividadeService.getAtividadesPorMateria(materia.nome).length;
+  }
 
-  goToAtividades(materia: string) {
-    this.router.navigate(['/atividades', { nome: materia }]); // Ajuste a rota conforme necessário
+  goToAtividades(materia: Materia) {
+    this.router.navigate(['/atividades'], { 
+      queryParams: { 
+        materia: materia.nome 
+      }
+    });
   }
 }

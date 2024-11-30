@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AtividadeService } from '../atividade.service';
-import { MateriaService } from '../materia.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AtividadeService, Atividade } from '../atividade.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-atividades',
@@ -8,29 +9,60 @@ import { MateriaService } from '../materia.service';
   styleUrls: ['./atividades.page.scss'],
 })
 export class AtividadesPage implements OnInit {
-  atividades: any[] = [];
-  materias: string[] = []; // Definindo a variável 'materias' que estava faltando
-  materiaSelecionada: string = '';
+  atividades: Atividade[] = [];
+  materiaFiltro?: string;
+  
+  get isProfessor(): boolean {
+    return this.authService.isProfessor();
+  }
 
   constructor(
     private atividadeService: AtividadeService,
-    private materiaService: MateriaService
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    // Obtém todas as atividades e matérias ao inicializar a página
-    this.atividadeService.getAtividades().subscribe((atividades) => {
-      this.atividades = atividades;
+    // Inscrever-se para mudanças nos parâmetros da rota
+    this.route.queryParams.subscribe(params => {
+      this.materiaFiltro = params['materia'];
+      this.loadAtividades();
     });
 
-    // Obtém as matérias do serviço MateriaService
-    this.materias = this.materiaService.getMaterias();
+    // Inscrever-se para mudanças nas atividades
+    this.atividadeService.getAtividades().subscribe(atividades => {
+      if (this.materiaFiltro) {
+        this.atividades = atividades.filter(a => 
+          a.materia.toLowerCase() === this.materiaFiltro?.toLowerCase()
+        );
+      } else {
+        this.atividades = atividades;
+      }
+    });
   }
 
-  // Filtra as atividades com base na matéria selecionada
-  filtrarAtividadesPorMateria() {
-    if (this.materiaSelecionada) {
-      this.atividades = this.atividadeService.getAtividadesPorMateria(this.materiaSelecionada);
-    }
+  loadAtividades() {
+    this.atividadeService.getAtividades().subscribe(atividades => {
+      if (this.materiaFiltro) {
+        this.atividades = atividades.filter(a => 
+          a.materia.toLowerCase() === this.materiaFiltro?.toLowerCase()
+        );
+      } else {
+        this.atividades = atividades;
+      }
+    });
+  }
+
+  criarAtividade() {
+    this.router.navigate(['/criar-atividade']);
+  }
+
+  verDetalhes(atividade: Atividade) {
+    this.router.navigate(['/detalhes-atividade', atividade.id]);
+  }
+
+  getDataFormatada(data: string): string {
+    return new Date(data).toLocaleDateString('pt-BR');
   }
 }

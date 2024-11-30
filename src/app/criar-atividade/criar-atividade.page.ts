@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AtividadeService } from '../atividade.service';
-import { MateriaService } from '../materia.service';
+import { MateriaService, Materia } from '../materia.service';
+import { ToastController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-criar-atividade',
@@ -9,32 +11,85 @@ import { MateriaService } from '../materia.service';
   styleUrls: ['./criar-atividade.page.scss'],
 })
 export class CriarAtividadePage implements OnInit {
-  atividade = { descricao: '', dataEntrega: '', nota: 0, materia: '' };
-  materias: any[] = [];
+  novaAtividade = {
+    descricao: '',
+    materia: '',
+    dataEntrega: '',
+    nota: 0,
+    detalhes: '',
+  };
+
+  materias: Materia[] = [];
+  now: string = ''; // Data mínima para o campo de data
 
   constructor(
-    private router: Router,
     private atividadeService: AtividadeService,
-    private materiaService: MateriaService
+    private materiaService: MateriaService,
+    private authService: AuthService,
+    private router: Router,
+    private toastController: ToastController
   ) {}
 
   ngOnInit() {
-    // Obter matérias do serviço de matérias e garantir que estão sendo carregadas corretamente
-    this.materias = this.materiaService.getMaterias();
+    // Inicializar data mínima
+    const today = new Date();
+    this.now = today.toISOString().split('T')[0];
+
+    // Verificar se o usuário é professor
+    if (!this.authService.isProfessor()) {
+      this.router.navigate(['/atividades']);
+      return;
+    }
+
+    // Carregar matérias
+    this.materiaService.getMaterias().subscribe((materias) => {
+      this.materias = materias;
+    });
   }
 
-  onSubmit() {
-    // Adiciona a atividade com a matéria associada corretamente
-    this.atividadeService.addAtividade(this.atividade);
-    this.router.navigate(['/atividades']); // Redireciona para a lista de atividades
+  async criarAtividade() {
+    if (!this.validarCampos()) {
+      await this.exibirToast(
+        'Por favor, preencha todos os campos obrigatórios',
+        'danger'
+      );
+      return;
+    }
+
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      await this.exibirToast('Erro ao identificar o usuário', 'danger');
+      return;
+    }
+
+    // Adicionar nova atividade
+    this.atividadeService.addAtividade({
+      ...this.novaAtividade,
+      createdBy: currentUser.id,
+    });
+
+    await this.exibirToast('Atividade criada com sucesso!', 'success');
+
+    // Navegar para a lista de atividades da matéria específica
+    this.router.navigate(['/atividades'], {
+      queryParams: { materia: this.novaAtividade.materia },
+    });
   }
 
-  isFormValid(): boolean {
-    // Verifica se todos os campos obrigatórios estão preenchidos
+  private validarCampos(): boolean {
     return (
-      this.atividade.descricao.trim() !== '' &&
-      this.atividade.dataEntrega !== '' &&
-      this.atividade.materia !== ''
+      this.novaAtividade.descricao.trim() !== '' &&
+      this.novaAtividade.materia.trim() !== '' &&
+      this.novaAtividade.dataEntrega.trim() !== ''
     );
+  }
+
+  private async exibirToast(mensagem: string, cor: string) {
+    const toast = await this.toastController.create({
+      message: mensagem,
+      duration: 2000,
+      color: cor,
+    });
+    toast.present();
   }
 }

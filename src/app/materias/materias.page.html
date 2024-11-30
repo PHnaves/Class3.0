@@ -1,70 +1,35 @@
-<ion-menu contentId="main-content" side="start">
-  <ion-header>
-    <ion-toolbar color="">
-      <ion-title class="menu-title">Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <ion-list>
-      <ion-item routerLink="/perfil" detail="false">
-        <ion-icon slot="start" name="person-circle"></ion-icon>
-        <ion-label>Perfil do Usuário</ion-label>
-      </ion-item>
-      <ion-item routerLink="/termos" detail="false">
-        <ion-icon slot="start" name="document-text"></ion-icon>
-        <ion-label>Termos de Uso</ion-label>
-      </ion-item>
-      <ion-item routerLink="/settings" detail="false">
-        <ion-icon slot="start" name="settings"></ion-icon>
-        <ion-label>Configurações</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Matérias</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionChange)="filterMaterias()"
+      placeholder="Buscar matéria"
+      animated>
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
 
-<div class="ion-page" id="main-content">
-  <!-- Header -->
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="header-title" color="primary">Matérias</ion-title>
-      <ion-buttons slot="end">
-        <img class="logo" src="assets/imagens/logo-sem-escrita.png" alt="Logo" />
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let materia of filteredMaterias" (click)="goToAtividades(materia)" button>
+      <ion-label>
+        <h2>{{ materia.nome }}</h2>
+        <p *ngIf="materia.descricao">{{ materia.descricao }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="primary">
+        {{ getAtividadesCount(materia) }} atividades
+      </ion-badge>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
 
-  <!-- Content -->
-  <ion-content>
-    <div class="ion-padding">
-      <!-- Homework Section -->
-      <h4 class="p-4">Homework to do <span class="fr link">See history</span></h4>
-      <ion-grid fixed>
-        <ion-row>
-          <ion-col size="12">
-            <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterMaterias()" placeholder="Pesquisar matéria..."></ion-searchbar>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-      <ion-grid fixed>
-        <ion-row>
-          <ion-col size="12" *ngFor="let materia of filteredMaterias">
-            <ion-card class="medium" (click)="goToAtividades(materia.nome)">
-              <ion-card-content>
-                <div class="title">
-                  <ion-badge class="fl">{{ materia.tarefas }}</ion-badge>
-                  <p>Atividades <br>pendentes</p>
-                  <ion-icon name="chevron-forward-outline" class="fr icon-go"></ion-icon>
-                  <h2>{{ materia.nome }}</h2>
-                </div>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-  </ion-content>
-</div>
+  <ion-text color="medium" class="ion-text-center ion-padding" *ngIf="filteredMaterias.length === 0">
+    <p>Nenhuma matéria encontrada</p>
+  </ion-text>
+</ion-content>

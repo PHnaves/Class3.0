@@ -1,35 +1,76 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/atividades"></ion-back-button>
+    </ion-buttons>
     <ion-title>Criar Atividade</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form (ngSubmit)="onSubmit()" *ngIf="materias.length">
-    <ion-item>
-      <ion-label position="floating">Descrição</ion-label>
-      <ion-input [(ngModel)]="atividade.descricao" name="descricao" required></ion-input>
-    </ion-item>
+  <form (ngSubmit)="criarAtividade()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Descrição *</ion-label>
+        <ion-input 
+          [(ngModel)]="novaAtividade.descricao" 
+          name="descricao" 
+          required
+          placeholder="Digite a descrição da atividade">
+        </ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Data de Entrega</ion-label>
-      <ion-input [(ngModel)]="atividade.dataEntrega" name="dataEntrega" type="date" required></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Matéria *</ion-label>
+        <ion-select 
+          [(ngModel)]="novaAtividade.materia" 
+          name="materia" 
+          required
+          placeholder="Selecione a matéria">
+          <ion-select-option 
+            *ngFor="let materia of materias" 
+            [value]="materia.nome">
+            {{ materia.nome }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Nota</ion-label>
-      <ion-input [(ngModel)]="atividade.nota" name="nota" type="number" required></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label>Data de Entrega</ion-label>
+        <ion-datetime
+          display-format="YYYY-MM-DD"
+          min="{{ now }}"
+          [(ngModel)]="novaAtividade.dataEntrega"
+        ></ion-datetime>
+      </ion-item>      
 
-    <ion-item>
-      <ion-label>Matéria</ion-label>
-      <ion-select [(ngModel)]="atividade.materia" name="materia" required>
-        <ion-select-option *ngFor="let materia of materias" [value]="materia">
-          {{ materia }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Nota</ion-label>
+        <ion-input 
+          [(ngModel)]="novaAtividade.nota" 
+          name="nota" 
+          type="number"
+          min="0"
+          max="10"
+          placeholder="Digite a nota máxima">
+        </ion-input>
+      </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="!isFormValid()">Salvar</ion-button>
+      <ion-item>
+        <ion-label position="stacked">Detalhes</ion-label>
+        <ion-textarea 
+          [(ngModel)]="novaAtividade.detalhes" 
+          name="detalhes"
+          rows="4"
+          placeholder="Digite os detalhes da atividade">
+        </ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit">
+        Criar Atividade
+      </ion-button>
+    </div>
   </form>
 </ion-content>

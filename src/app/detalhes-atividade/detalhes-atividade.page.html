@@ -1,19 +1,142 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title color="primary">Detalhes Atividade</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/atividades"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ atividade?.descricao || 'Detalhes da Atividade' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card *ngIf="atividade">
     <ion-card-header>
-      <ion-card-title>{{ atividade.descricao }}</ion-card-title>
+      <ion-card-title>Detalhes da Atividade</ion-card-title>
+      <ion-card-subtitle>Data de entrega: {{ atividade.dataEntrega }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p>Data de Entrega: {{ atividade.dataEntrega | date }}</p>
       <p>Nota: {{ atividade.nota }}</p>
-      <p>Matéria: {{ atividade.materia }}</p>
-      <p>Descrição: {{ atividade.descricao }}</p>
+      <p>{{ atividade.detalhes }}</p>
+
+      <!-- Arquivos anexados pelo professor -->
+      <div *ngIf="getAttachments(atividade).length > 0">
+        <h3>Arquivos da Atividade:</h3>
+        <ion-list>
+          <ion-item *ngFor="let attachment of getAttachments(atividade)">
+            <ion-label>{{ attachment.name }}</ion-label>
+            <ion-button slot="end" (click)="downloadFile(attachment)">
+              <ion-icon name="download-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <!-- Links compartilhados pelo professor -->
+      <div *ngIf="getLinks(atividade).length > 0">
+        <h3>Links Úteis:</h3>
+        <ion-list>
+          <ion-item *ngFor="let link of getLinks(atividade)">
+            <ion-label>
+              <h4>{{ link.description }}</h4>
+              <p><a [href]="link.url" target="_blank">{{ link.url }}</a></p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Seção de Submissão (apenas para alunos) -->
+  <ion-card *ngIf="isAluno && atividade">
+    <ion-card-header>
+      <ion-card-title>Enviar Atividade</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Upload de arquivos -->
+      <ion-item>
+        <ion-label position="stacked">Anexar Arquivos</ion-label>
+        <input type="file" (change)="onFileSelected($event)" multiple />
+      </ion-item>
+
+      <!-- Lista de arquivos selecionados -->
+      <ion-list *ngIf="selectedFiles.length > 0">
+        <ion-item *ngFor="let file of selectedFiles">
+          <ion-label>{{ file.name }}</ion-label>
+          <ion-button slot="end" (click)="removeFile(file)" color="danger">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+      <!-- Adicionar links -->
+      <ion-item>
+        <ion-label position="stacked">Adicionar Link</ion-label>
+        <ion-input [(ngModel)]="newLink.url" placeholder="URL"></ion-input>
+        <ion-input [(ngModel)]="newLink.description" placeholder="Descrição"></ion-input>
+        <ion-button slot="end" (click)="addLink()">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <!-- Lista de links adicionados -->
+      <ion-list *ngIf="submissionLinks.length > 0">
+        <ion-item *ngFor="let link of submissionLinks">
+          <ion-label>
+            <h4>{{ link.description }}</h4>
+            <p>{{ link.url }}</p>
+          </ion-label>
+          <ion-button slot="end" (click)="removeLink(link)" color="danger">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+      <!-- Botão de envio -->
+      <ion-button expand="block" (click)="submitAtividade()" [disabled]="!canSubmit()">
+        Enviar Atividade
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Visualização das submissões (apenas para professores) -->
+  <ion-card *ngIf="isProfessor && atividade && getSubmissions(atividade).length > 0">
+    <ion-card-header>
+      <ion-card-title>Submissões dos Alunos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let submission of getSubmissions(atividade)">
+          <ion-label>
+            <h3>Aluno ID: {{ submission.studentId }}</h3>
+            <p>Data: {{ submission.submissionDate | date:'short' }}</p>
+            
+            <!-- Arquivos enviados -->
+            <div *ngIf="getSubmissionAttachments(submission).length > 0">
+              <h4>Arquivos:</h4>
+              <ion-list>
+                <ion-item *ngFor="let file of getSubmissionAttachments(submission)">
+                  <ion-label>{{ file.name }}</ion-label>
+                  <ion-button slot="end" (click)="downloadFile(file)">
+                    <ion-icon name="download-outline"></ion-icon>
+                  </ion-button>
+                </ion-item>
+              </ion-list>
+            </div>
+
+            <!-- Links enviados -->
+            <div *ngIf="getSubmissionLinks(submission).length > 0">
+              <h4>Links:</h4>
+              <ion-list>
+                <ion-item *ngFor="let link of getSubmissionLinks(submission)">
+                  <ion-label>
+                    <p>{{ link.description }}</p>
+                    <a [href]="link.url" target="_blank">{{ link.url }}</a>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-label>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>
