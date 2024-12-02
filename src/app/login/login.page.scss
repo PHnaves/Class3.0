@@ -1,3 +1,7 @@
+ion-title{
+  font-size: 35px;
+}
+
 .login-container {
   height: 100%;
   display: flex;
@@ -6,17 +10,20 @@
   padding: 20px;
   max-width: 400px;
   margin: 0 auto;
-  
-  .logo-container {
-    text-align: center;
-    margin-bottom: 40px;
-    
-    img {
-      max-width: 200px;
-      height: auto;
+
+  .logo {
+    // alinhado ao meio
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      width: 180px;
+      height: 180px;
     }
-  }
-  
+
+    ion-card-title{
+      font-size: 35px;
+    }
+
   .login-form {
     background: var(--ion-color-light);
     padding: 20px;
@@ -154,3 +161,4 @@
     }
   }
 }
+
